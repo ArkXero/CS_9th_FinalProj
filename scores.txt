@@ -1,3 +1,4 @@
 heart,4,0
 youth,3,0
 jelly,3,0
+craze,5,0
