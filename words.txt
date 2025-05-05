@@ -1,5 +1,3 @@
-Here is each word on its own line:
-
 ABACK  
 ABASE  
 ABATE  
