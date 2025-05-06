@@ -17,22 +17,32 @@ public class WordleGame {
 
     public LetterResult[] checkGuess(String guess) {
         LetterResult[] results = new LetterResult[5];
+        // Create a frequency map of letters in the target word
+        int[] targetLetterCount = new int[26]; // for a-z
         
-        // Mark correct letters (green)
+        for (char c : targetWord.toCharArray()) {
+            targetLetterCount[c - 'a']++;
+        }
+        
+        // First pass: Mark correct letters (green)
         for (int i = 0; i < 5; i++) {
             char guessLetter = guess.charAt(i);
             if (guessLetter == targetWord.charAt(i)) {
                 results[i] = new LetterResult(guessLetter, LetterState.CORRECT);
+                // Reduce the count of available letters
+                targetLetterCount[guessLetter - 'a']--;
             }
         }
         
-        // Mark present but misplaced letters (yellow)
+        // Second pass: Mark present but misplaced letters (yellow) or absent letters
         for (int i = 0; i < 5; i++) {
             if (results[i] != null) continue;
             
             char guessLetter = guess.charAt(i);
-            if (targetWord.indexOf(guessLetter) >= 0) {
+            if (targetLetterCount[guessLetter - 'a'] > 0) {
                 results[i] = new LetterResult(guessLetter, LetterState.PRESENT);
+                // Reduce the count of available letters
+                targetLetterCount[guessLetter - 'a']--;
             } else {
                 results[i] = new LetterResult(guessLetter, LetterState.ABSENT);
             }

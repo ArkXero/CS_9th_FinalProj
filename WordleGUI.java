@@ -115,4 +115,8 @@ public class WordleGUI {
             }
         }
     }
+
+    public WordleGame getGame() {
+        return this.game;
+    }
 }
