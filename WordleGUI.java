@@ -115,7 +115,8 @@ public class WordleGUI {
             }
         }
     }
-
+// DEBUG PRINT GET METHOD
+    // This method is testing purposes only, delete it when game is complete
     public WordleGame getGame() {
         return this.game;
     }
