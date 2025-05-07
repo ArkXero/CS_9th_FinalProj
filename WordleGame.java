@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class WordleGame {
+public class WordleGame implements GuessChecker {
     private String targetWord;
     private int maxGuesses;
     private int currentGuess;

@@ -4,3 +4,6 @@ jelly,3,0
 craze,5,0
 draft,1,0
 koala,1,0
+endow,5,0
+icing,2,0
+anvil,1,0

@@ -1,6 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+
 public class WordleGUI {
     private JFrame frame;
     private JPanel gridPanel;
@@ -12,6 +13,7 @@ public class WordleGUI {
     private int wordLength = 5;
     private int maxGuesses = 6;
     private JLabel[][] gridLabels;
+    private JLabel statusLabel; // New label to show game status
 
     public WordleGUI() {
         wordBank = new WordBank();
@@ -28,8 +30,44 @@ public class WordleGUI {
     public void buildUI() {
         frame = new JFrame("Wordle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 500);
+        frame.setSize(400, 550);  // Slightly taller to accommodate logo
         frame.setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        
+        JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        logoPanel.setPreferredSize(new Dimension(60, 60));  // Increased height for logo + space
+
+        try {
+            ImageIcon originalIcon = new ImageIcon("logo.png");
+            if (originalIcon.getIconWidth() <= 0) {
+                JLabel logoLabel = new JLabel("JWordle", SwingConstants.CENTER);
+                logoLabel.setFont(new Font("Arial", Font.BOLD, 24));
+                logoLabel.setForeground(new Color(60, 118, 61));  // Dark green
+                logoPanel.add(logoLabel);
+            } else {
+                Image originalImage = originalIcon.getImage();
+                Image scaledImage = originalImage.getScaledInstance(100, 40, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(scaledImage);
+                
+                JLabel logoLabel = new JLabel(scaledIcon);
+                logoPanel.add(logoLabel);
+            }
+        } catch (Exception e) {
+            JLabel logoLabel = new JLabel("JWordle", SwingConstants.CENTER);
+            logoLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            logoPanel.add(logoLabel);
+        }
+        
+        topPanel.add(logoPanel, BorderLayout.NORTH);
+        
+        // Add status label below the logo
+        statusLabel = new JLabel("Guess the word!", SwingConstants.CENTER);
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        topPanel.add(statusLabel, BorderLayout.CENTER);
+        
+        frame.add(topPanel, BorderLayout.NORTH);
 
         gridPanel = new JPanel(new GridLayout(maxGuesses, wordLength));
         gridLabels = new JLabel[maxGuesses][wordLength];
@@ -67,16 +105,16 @@ public class WordleGUI {
     public void handleSubmit() {
         System.out.println("handleSubmit called"); // Debug print
         if (game.isGameOver()) {
-            JOptionPane.showMessageDialog(frame, "Game over! Please restart to play again.");
+            statusLabel.setText("Game over! Please restart to play again.");
             return;
         }
         String guess = inputBox.getText().trim().toLowerCase();
         if (guess.length() != wordLength) {
-            JOptionPane.showMessageDialog(frame, "Guess must be " + wordLength + " letters.");
+            statusLabel.setText("Guess must be " + wordLength + " letters.");
             return;
         }
         if (!wordBank.isValidWord(guess)) {
-            JOptionPane.showMessageDialog(frame, "Not a valid word.");
+            statusLabel.setText("Not a valid word.");
             return;
         }
         
@@ -85,10 +123,22 @@ public class WordleGUI {
         inputBox.setText("");
         
         if (game.hasWon(guess)) {
-            JOptionPane.showMessageDialog(frame, "Congratulations! You guessed the word.");
+            statusLabel.setText("Congratulations! You guessed the word!");
+            statusLabel.setForeground(new Color(0, 128, 0)); // Dark green
             scoreManager.saveScore(guess, game.getGuessHistory().size(), 0);
+            // Disable input after winning
+            inputBox.setEnabled(false);
+            submitButton.setEnabled(false);
         } else if (!game.hasGuessesLeft()) {
-            JOptionPane.showMessageDialog(frame, "Out of guesses! The word was: " + game.getTargetWord());
+            statusLabel.setText("Game over! The word was: " + game.getTargetWord());
+            statusLabel.setForeground(Color.RED);
+            // Disable input after losing
+            inputBox.setEnabled(false);
+            submitButton.setEnabled(false);
+        } else {
+            // Reset status for ongoing game
+            statusLabel.setText("Guess the word!");
+            statusLabel.setForeground(Color.BLACK);
         }
     }
     

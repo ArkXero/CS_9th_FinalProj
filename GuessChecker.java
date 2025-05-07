@@ -1,3 +1,3 @@
 public interface GuessChecker {
-    LetterResult[] checkGuess(String guess, String targetWord);
+    public abstract LetterResult[] checkGuess(String guess);
 }
