@@ -17,7 +17,7 @@ public class WordleGUI {
 
     public WordleGUI() {
         wordBank = new WordBank();
-        wordBank.loadWords("/Users/ronitsingh/Desktop/CS_9th_FinalProj/words.txt");
+        wordBank.loadWords("words.txt");
         if (!wordBank.isValidWord("apple")) {
             JOptionPane.showMessageDialog(null, "Failed to load words.txt or file is empty!");
         }
