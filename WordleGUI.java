@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-
 public class WordleGUI {
     private JFrame frame;
     private JPanel gridPanel;
@@ -116,7 +114,7 @@ public class WordleGUI {
         }
     }
 // DEBUG PRINT GET METHOD
-    // This method is testing purposes only, delete it when game is complete
+    // This method is testing  only, delete it when game is complete
     public WordleGame getGame() {
         return this.game;
     }

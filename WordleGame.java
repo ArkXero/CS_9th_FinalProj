@@ -17,14 +17,13 @@ public class WordleGame {
 
     public LetterResult[] checkGuess(String guess) {
         LetterResult[] results = new LetterResult[5];
-        // Create a frequency map of letters in the target word
+        // Create a array of letters in the target word
         int[] targetLetterCount = new int[26]; // for a-z
         
         for (char c : targetWord.toCharArray()) {
             targetLetterCount[c - 'a']++;
         }
         
-        // First pass: Mark correct letters (green)
         for (int i = 0; i < 5; i++) {
             char guessLetter = guess.charAt(i);
             if (guessLetter == targetWord.charAt(i)) {
@@ -34,7 +33,6 @@ public class WordleGame {
             }
         }
         
-        // Second pass: Mark present but misplaced letters (yellow) or absent letters
         for (int i = 0; i < 5; i++) {
             if (results[i] != null) continue;
             
