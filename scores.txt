@@ -9,3 +9,6 @@ icing,2,0
 anvil,1,0
 beast,1,0
 whoop,1,0
+sandy,6,0
+scram,1,0
+about,2,0
